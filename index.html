@@ -137,6 +137,10 @@
       vertical-align: middle;
     }
 
+    .blured {
+      filter: blur(3px);
+    }
+
 
     /*HEADER*/
 
@@ -204,7 +208,6 @@
       position: relative;
       height: 100%;
       width: 100%;
-      filter: blur(4px);
     }
 
     /*CATEGORIES*/
@@ -272,6 +275,11 @@
 
     .video .inner {
       position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video .bg-preview {
       width: 100%;
       height: 100%;
       background-color: #000;
@@ -699,13 +707,13 @@
 
 <div class="main">
   <div class="inner">
-    <div class="categories">
+    <div class="categories blured">
       <ul class="inner">
         <li>Все</li>
         <li>Сериалы</li>
       </ul>
     </div>
-    <div class="title">
+    <div class="title blured">
       <div class="title-wrapper">
         <p class="heading">Название видео</p>
         <p class="description">И его краткое описание</p>
@@ -713,6 +721,7 @@
     </div>
     <div class="video">
       <div class="inner">
+        <div class="bg-preview blured"></div>
         <div class="player">
           <div class="play">
             <button disabled></button>
@@ -729,7 +738,7 @@
         </div>
       </div>
     </div>
-    <div class="tools">
+    <div class="tools blured">
       <div class="inner">
         <div class="watch">2 568 741</div>
         <div class="add-wrapper">
@@ -740,7 +749,7 @@
         </div>
       </div>
     </div>
-    <div class="other-videos">
+    <div class="other-videos blured">
       <div class="inner">
         <ul class="menu">
           <li>Рекомендации</li>
