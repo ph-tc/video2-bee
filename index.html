@@ -137,9 +137,16 @@
       vertical-align: middle;
     }
 
-    .blured {
-      -webkit-filter: brightness(0.4);
-      filter: brightness(0.4);
+    .blured::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: block;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 3;
     }
 
 
@@ -152,6 +159,7 @@
     }
 
     .header .inner {
+      position: relative;
       display: table;
       width: 100%;
       padding: 5px 10px;
@@ -393,38 +401,6 @@
       }
     }
 
-    /*TITLE*/
-
-    .main .title {
-      display: table-row;
-    }
-
-    .main .title .title-wrapper {
-      padding: 10px;
-    }
-
-    .main .title .heading {
-      font-family: 'Cuprum', sans-serif;
-      font-size: 20px;
-      font-weight: bold;
-      line-height: 20px;
-      color: #000;
-    }
-
-    .main .title .description {
-      font-family: 'Cuprum', sans-serif;
-      font-size: 16px;
-      font-weight: bold;
-      line-height: 16px;
-      color: #383F51;
-    }
-
-    @media screen and (max-height: 340px) {
-      .main .title {
-        display: none;
-      }
-    }
-
     /*TOOLS*/
 
     .tools {
@@ -589,6 +565,7 @@
       width: 100%;
       font-size: 0;
       text-align: center;
+      z-index: 1000;
     }
 
     .main .btn-wrapper .heading {
@@ -694,6 +671,7 @@
     }
 
     .rules .inner {
+      position: relative;
       padding: 2px;
     }
 
@@ -713,8 +691,8 @@
 
 
 <body>
-<div class="header blured">
-  <div class="inner">
+<div class="header">
+  <div class="inner blured">
     <div class="name">
       <span>Видео онлайн</span>
     </div>
@@ -725,8 +703,8 @@
 </div>
 
 <div class="main">
-  <div class="inner">
-    <div class="categories blured">
+  <div class="inner blured">
+    <div class="categories">
       <ul class="inner">
         <li>Все</li>
         <li>ДТП</li>
@@ -735,13 +713,13 @@
         <li>Интересные факты</li>
       </ul>
     </div>
-<!--    <div class="title blured">-->
+<!--    <div class="title">-->
 <!--      <div class="title-wrapper">-->
 <!--        <p class="heading">Название видео</p>-->
 <!--        <p class="description">И его краткое описание</p>-->
 <!--      </div>-->
 <!--    </div>-->
-    <div class="video blured">
+    <div class="video">
       <div class="inner">
         <div class="bg-preview"></div>
         <div class="player">
@@ -760,7 +738,7 @@
         </div>
       </div>
     </div>
-    <div class="tools blured">
+    <div class="tools">
       <div class="inner">
         <div class="watch">2 568 741</div>
         <div class="add-wrapper">
@@ -771,7 +749,7 @@
         </div>
       </div>
     </div>
-    <div class="other-videos blured">
+    <div class="other-videos">
       <div class="inner">
         <ul class="menu">
           <li>Рекомендации</li>
@@ -800,8 +778,8 @@
   </div>
 </div>
 
-<div class="rules blured" id="footer">
-  <div class="inner">
+<div class="rules" id="footer">
+  <div class="inner blured">
     <span>Провайдер: ООО «Телеком Клуб»</span>
     <span>claim@telecom-club.com</span>
     <span>8-800-770-04-31</span>
