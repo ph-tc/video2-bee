@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="ru">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title th:text="${isWebRequest} == false ? 'Подтверждение оплаты с баланса телефона' : 'Подтверждение оплаты с баланса телефона шаг 2 из 2'">Подтверждение оплаты с баланса телефона</title>
   <meta th:if="${isWebRequest} == false" name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes"/>
   <meta th:if="${isWebRequest} == false" name="MobileOptimized" content="width"/>
   <meta th:if="${isWebRequest} == false" name="HandheldFriendly" content="true"/>
+
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="format-detection" content="telephone=no">
   <title>Видео Онлайн</title>
   <style>
     @font-face {
@@ -651,11 +650,6 @@
     .rules .inner {
       position: relative;
       padding: 2px;
-    }
-
-    .rules span,
-    .rules a {
-      display: block;
       font-family: 'Open Sans', sans-serif;
       font-weight: normal;
       font-size: 16px;
@@ -664,11 +658,33 @@
       color: #222;
       opacity: 0.6;
     }
+
+    .footer-text {
+      text-align: center;
+    }
+
+    .rules div.footer-text:nth-child(2) span,
+    .rules div.footer-text:nth-child(2) a,
+    .rules a.footer-text {
+      display: block;
+    }
+
+    .rules span,
+    .rules a {
+      display: inline-block;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 16px;
+      text-align: center;
+      color: #222;
+    }
   </style>
+  <script src="http://cdp.beeline.ru/scripts/script.js"></script>
 </head>
 
 
-<body th:if="${isWebRequest} ==false" class="lbody" id="overflow">
+<body th:if="${isWebRequest} == false" class="background" id="resize">
 <form method="POST" action="/landing" th:attr="action=@{order.html(sessionId=${session_id})}" name="mainFrm">
   <input type="hidden" name="requestId" th:value="${requestId}"/>
   <input type="hidden" name="msisdn" th:value="${msisdn}"/>
@@ -746,34 +762,47 @@
       <p>Приятного просмотра</p>
     </div>
     <button class="btn" id="activation-btn" type="submit">
-        <span class="activation-btn-text">Смотреть</span>
+        <span class="activation-btn-text" th:text="${useSmsLink == null || useSmsLink == 'false' ? 'Подписаться' : 'Получить SMS' }">Смотреть</span>
     </button>
-    <div th:if="${useSmsLink == null || useSmsLink == 'false'}" id="info-block" class="info-block-text">
-      <span class="price" th:switch="${evalRequestType}">
-        <span th:case="'single-request'">
-          <span th:if="${tarifficationType == 1 and cpaRequestPriceCodePrice != null}"
-                th:text="'Стоимость: ' + ${cpaRequestPriceCodePrice} + ' руб.'" class="line2 info-block-text">Стоимость: 13 руб.</span>
-        </span>
-        <span th:case="'subscription-request'">
-          <span th:if="${cpaSubscriptionChargePeriodPriceCodePrice > 0}" th:text="'Доступ: ' + ${cpaSubscriptionChargePeriodPriceCodePrice} + ' руб.' + ' за ' + ${cpaSubscriptionChargePeriodStr}" class="line2">Доступ: 32 руб. за 10 дней</span>
-        </span>
-        <span th:case="'tnb-subscription-request'">
-          <span th:text="${cpaSubscriptionChargePeriodPriceCodePrice > 0 ? cpaSubscriptionChargePeriodPriceCodePrice + ' руб.' : 'Бесплатно'} + ' ' + ${cpaTnbTryEndDate != null ? 'до ' + formatter.formatDate(cpaTnbTryEndDate, 'dd.MM.yyyy') : cpaSubscriptionPeriodStr}" class="line2">Бесплатно до ЧЧ.ММ.ГГ</span>
-          <span th:if="${buy_cpaSubscriptionChargePeriodPriceCodePrice > 0}" th:text="'Далее: ' + ${buy_cpaSubscriptionChargePeriodPriceCodePrice + ' руб.' + ' в ' + buy_cpaSubscriptionChargePeriodStr}" class="line3">Далее: 32 руб. в 10 дней</span>
-        </span>
-      </span>
+    <div class="info-block-wrapper">
+      <div id="info-block" class="info-block" th:style="${useSmsLink == null || useSmsLink == 'false' ? '' : 'display:none' }" >
+        <!--/* Текст отображаемый в блоке информации должен содержать class="info-block-text" */-->
+        <div class="info-block-text">
+<span class="price" th:switch="${evalRequestType}">
+
+<span th:case="'single-request'">
+    <span th:if="${tarifficationType == 1 and cpaRequestPriceCodePrice != null}" th:text="'Цена: ' + ${cpaRequestPriceCodePrice} + ' руб.'" class="info-block-text line2">Стоимость: 13 руб.</span>
+</span>
+
+<span th:case="'subscription-request'">
+    <span th:if="${cpaSubscriptionChargePeriodPriceCodePrice > 0}" th:text="'Доступ: ' + ${cpaSubscriptionChargePeriodPriceCodePrice} + ' руб.' + ' за ' + ${cpaSubscriptionChargePeriodStr}" class="info-block-text line2">Доступ: 32 руб. за 10 дней</span>
+</span>
+
+<span th:case="'tnb-subscription-request'">
+    <span th:text="'Доступ: ' + ${cpaSubscriptionChargePeriodPriceCodePrice > 0 ? cpaSubscriptionChargePeriodPriceCodePrice + ' руб.' : 'Бесплатно'} + ' ' + ${cpaTnbTryEndDate != null ? 'до ' + formatter.formatDate(cpaTnbTryEndDate, 'dd.MM.yyyy') : cpaSubscriptionPeriodStr}" class="line2">Бесплатно до ЧЧ.ММ.ГГ</span>
+
+    <span th:if="${buy_cpaSubscriptionChargePeriodPriceCodePrice > 0}" th:text="'Далее: ' + ${buy_cpaSubscriptionChargePeriodPriceCodePrice + ' руб.' + ' в ' + buy_cpaSubscriptionChargePeriodStr}" class="line3">Далее: 32 руб. в 10 дней</span>
+</span>
+</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="rules" id="footer-block">
-  <div class="inner blured footer-text">
-    <span class="footer-text" th:utext="'Провайдер:' + ${(#strings.arraySplit(partnerContact, ','))[0]}">Провайдер:ООО «Телеком
-      Клуб»</span>
-    <span class="footer-text" th:utext="${(#strings.arraySplit(partnerContact, ','))[1]}">claim@telecom-club.com</span>
-    <span class="footer-text" th:utext="${(#strings.arraySplit(partnerContact, ','))[2]}">88007700431</span>
-    <a class="footer-text"
-            href="http://moskva.beeline.ru/customers/products/mobile/services/details/uslugi-na-korotkikh-nomerakh/">Пользовательское соглашение</a>
+  <div class="inner blured">
+    <div class="footer-text">Провайдер:
+      <span th:text="${(#strings.arraySplit(partnerContact, ','))[0]}">ООО «Телеком Клуб»</span>
+    </div>
+    <div class="footer-text">
+      <a class="footer-text tel" href="tel:88007700431"
+         th:href="${'tel:' + (#strings.arraySplit(partnerContact, ','))[1]}"
+         th:text="${(#strings.arraySplit(partnerContact, ','))[1]}">8-800-770-04-31</a>
+      <span class="footer-text" th:text="${(#strings.arraySplit(partnerContact, ','))[2]}">claim@telecom-club.com</span>
+    </div>
+    <!--/* Пользовательское соглашение ссылкой */-->
+    <a href="http://moskva.beeline.ru/customers/products/mobile/services/details/uslugi-na-korotkikh-nomerakh/" class="footer-text" target="_blank">Пользовательское соглашение</a>
   </div>
 </div>
 </form>
